@@ -1,9 +1,9 @@
-.PHONY: build check install doc dist sources srpm rpm pypi clean
+.PHONY: build check install dist sources srpm rpm pypi clean
 
 PYTHON   ?= python3
 NAME     := psh
 RPM_NAME := python-$(NAME)
-VERSION  := $(shell $(PYTHON) setup.py --version)
+VERSION  := $(shell sed -n s/[[:space:]]*Version:[[:space:]]*//p $(RPM_NAME).spec)
 
 TEST_ENV_PATH         := test-env
 CHECK_PYTHON_VERSIONS := 2 3
@@ -26,14 +26,12 @@ check:
 install:
 	$(PYTHON) setup.py install --skip-build $(INSTALL_FLAGS)
 
-doc:
-	$(MAKE) -C doc html SPHINXOPTS="-D version=$(VERSION)"
 
 dist: clean
 	$(PYTHON) setup.py sdist
 	cp dist/$(NAME)-*.tar.gz .
 
-sources:
+sources: clean
 	@git archive --format=tar --prefix="$(NAME)-$(VERSION)/" \
 		$(shell git rev-parse --verify HEAD) | gzip > $(NAME)-$(VERSION).tar.gz
 
@@ -47,6 +45,5 @@ pypi: dist
 	$(PYTHON) -m twine upload dist/*
 
 clean:
-	@$(MAKE) -C doc clean
 	find . -depth -type d -name __pycache__ -exec rm -rf {} \;
 	rm -rf build dist $(NAME)-*.tar.gz $(NAME).egg-info *.egg $(TEST_ENV_PATH)
