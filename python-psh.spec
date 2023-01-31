@@ -15,7 +15,7 @@ and an elegant shell-style way to execute processes.}
 
 Name:    python-%project_name
 Version: 0.2.12
-Release: 2.CROC1%{?dist}
+Release: 2.CROC2%{?dist}
 Summary: Process management library
 
 Group:   Development/Languages
@@ -40,7 +40,8 @@ BuildRequires: python%{python3_pkgversion}-pcore
 BuildRequires: python%{python3_pkgversion}-psys >= 0.3
 BuildRequires: python%{python3_pkgversion}-pytest >= 2.2.4
 %endif
-
+Obsoletes: python36-%project_name
+Conflicts: python36-%project_name
 %description -n python%{python3_pkgversion}-%project_name %{project_description}
 
 %prep
