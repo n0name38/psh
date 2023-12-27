@@ -15,7 +15,7 @@ and an elegant shell-style way to execute processes.}
 
 Name:    python-%project_name
 Version: 0.2.12
-Release: 2.CROC2%{?dist}
+Release: 2.CROC2_REDOS_TEST1%{?dist}
 Summary: Process management library
 
 Group:   Development/Languages
